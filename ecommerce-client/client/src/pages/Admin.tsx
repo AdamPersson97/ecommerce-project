@@ -601,6 +601,150 @@ const Admin = () => {
           </div>
         </div>
 
+        {/* Produkthantering Sektion */}
+        <div className="admin-section">
+          <h2>Produkthantering</h2>
+        </div>
+
+        <div className="product-form">
+          <h3>{editingProduct ? "Redigera produkt" : "Skapa ny produkt"}</h3>
+          <form onSubmit={handleSubmit}>
+            <div className="form-group">
+              <label>Produktnamn:</label>
+              <input
+                type="text"
+                name="name"
+                value={formData.name}
+                onChange={handleInputChange}
+                required
+              />
+            </div>
+
+            <div className="form-group">
+              <label>Beskrivning:</label>
+              <textarea
+                name="description"
+                value={formData.description}
+                onChange={handleInputChange}
+                required
+              />
+            </div>
+
+            <div className="form-row">
+              <div className="form-group">
+                <label>Pris (kr):</label>
+                <input
+                  type="number"
+                  name="price"
+                  value={formData.price}
+                  onChange={handleInputChange}
+                  required
+                />
+              </div>
+
+              <div className="form-group">
+                <label>Lager:</label>
+                <input
+                  type="number"
+                  name="stock"
+                  value={formData.stock}
+                  onChange={handleInputChange}
+                  required
+                />
+              </div>
+            </div>
+
+            <div className="form-group">
+              <label>Kategori:</label>
+              <input
+                type="text"
+                name="category"
+                value={formData.category}
+                onChange={handleInputChange}
+                required
+              />
+            </div>
+
+            <div className="form-group">
+              <label>Bild-URL:</label>
+              <input
+                type="url"
+                name="image"
+                value={formData.image}
+                onChange={handleInputChange}
+              />
+            </div>
+
+            <div className="form-actions">
+              <button type="submit" className="btn btn-primary">
+                {editingProduct ? "Uppdatera" : "Skapa"}
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  setEditingProduct(null);
+                  setFormData({
+                    name: "",
+                    description: "",
+                    price: "",
+                    stock: "",
+                    category: "",
+                    image: "",
+                  });
+                }}
+                className="btn btn-secondary"
+              >
+                Rensa formulär
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <div className="products-table">
+          <h2>Alla produkter ({products.length})</h2>
+          {products.length === 0 ? (
+            <p>Inga produkter hittades</p>
+          ) : (
+            <table>
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Namn</th>
+                  <th>Kategori</th>
+                  <th>Pris</th>
+                  <th>Lager</th>
+                  <th>Åtgärder</th>
+                </tr>
+              </thead>
+              <tbody>
+                {products.map((product) => (
+                  <tr key={product.id}>
+                    <td>{product.id}</td>
+                    <td>{product.name}</td>
+                    <td>{product.category}</td>
+                    <td>{product.price.toLocaleString()} kr</td>
+                    <td>{product.stock}</td>
+                    <td>
+                      <button
+                        onClick={() => editProduct(product)}
+                        className="btn btn-small btn-secondary"
+                      >
+                        Redigera
+                      </button>
+                      <button
+                        onClick={() => deleteProduct(product.id)}
+                        className="btn btn-small btn-danger"
+                      >
+                        Ta bort
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
+        </div>
+
         {/* Orderhantering Sektion */}
         <div className="admin-section">
           <h2>Orderhantering</h2>
@@ -820,300 +964,6 @@ const Admin = () => {
               >
                 Stäng detaljer
               </button>
-            </div>
-          )}
-        </div>
-
-        {/* Produkthantering Sektion */}
-        <div className="admin-section">
-          <h2>Produkthantering</h2>
-        </div>
-
-        <div className="product-form">
-          <h3>{editingProduct ? "Redigera produkt" : "Skapa ny produkt"}</h3>
-          <form onSubmit={handleSubmit}>
-            <div className="form-group">
-              <label>Produktnamn:</label>
-              <input
-                type="text"
-                name="name"
-                value={formData.name}
-                onChange={handleInputChange}
-                required
-              />
-            </div>
-
-            <div className="form-group">
-              <label>Beskrivning:</label>
-              <textarea
-                name="description"
-                value={formData.description}
-                onChange={handleInputChange}
-                required
-              />
-            </div>
-
-            <div className="form-row">
-              <div className="form-group">
-                <label>Pris (kr):</label>
-                <input
-                  type="number"
-                  name="price"
-                  value={formData.price}
-                  onChange={handleInputChange}
-                  required
-                />
-              </div>
-
-              <div className="form-group">
-                <label>Lager:</label>
-                <input
-                  type="number"
-                  name="stock"
-                  value={formData.stock}
-                  onChange={handleInputChange}
-                  required
-                />
-              </div>
-            </div>
-
-            <div className="form-group">
-              <label>Kategori:</label>
-              <input
-                type="text"
-                name="category"
-                value={formData.category}
-                onChange={handleInputChange}
-                required
-              />
-            </div>
-
-            <div className="form-group">
-              <label>Bild-URL:</label>
-              <input
-                type="url"
-                name="image"
-                value={formData.image}
-                onChange={handleInputChange}
-              />
-            </div>
-
-            <div className="form-actions">
-              <button type="submit" className="btn btn-primary">
-                {editingProduct ? "Uppdatera" : "Skapa"}
-              </button>
-              <button
-                type="button"
-                onClick={() => {
-                  setEditingProduct(null);
-                  setFormData({
-                    name: "",
-                    description: "",
-                    price: "",
-                    stock: "",
-                    category: "",
-                    image: "",
-                  });
-                }}
-                className="btn btn-secondary"
-              >
-                Rensa formulär
-              </button>
-            </div>
-          </form>
-        </div>
-
-        <div className="products-table">
-          <h2>Alla produkter ({products.length})</h2>
-          {products.length === 0 ? (
-            <p>Inga produkter hittades</p>
-          ) : (
-            <table>
-              <thead>
-                <tr>
-                  <th>ID</th>
-                  <th>Namn</th>
-                  <th>Kategori</th>
-                  <th>Pris</th>
-                  <th>Lager</th>
-                  <th>Åtgärder</th>
-                </tr>
-              </thead>
-              <tbody>
-                {products.map((product) => (
-                  <tr key={product.id}>
-                    <td>{product.id}</td>
-                    <td>{product.name}</td>
-                    <td>{product.category}</td>
-                    <td>{product.price.toLocaleString()} kr</td>
-                    <td>{product.stock}</td>
-                    <td>
-                      <button
-                        onClick={() => editProduct(product)}
-                        className="btn btn-small btn-secondary"
-                      >
-                        Redigera
-                      </button>
-                      <button
-                        onClick={() => deleteProduct(product.id)}
-                        className="btn btn-small btn-danger"
-                      >
-                        Ta bort
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          )}
-        </div>
-
-        {/* Orderhantering Sektion */}
-        <div className="admin-section">
-          <h2>Orderhantering</h2>
-
-          {/* Ordertabell */}
-          <div className="orders-table">
-            <h2>Alla ordrar ({orders.length})</h2>
-            {orders.length === 0 ? (
-              <p>Inga ordrar hittades</p>
-            ) : (
-              <table>
-                <thead>
-                  <tr>
-                    <th>ID</th>
-                    <th>Kund</th>
-                    <th>Totalt pris</th>
-                    <th>Betalningsstatus</th>
-                    <th>Orderstatus</th>
-                    <th>Åtgärder</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {orders.map((order) => (
-                    <tr key={order.id}>
-                      <td>{order.id}</td>
-                      <td>
-                        {order.customer_firstname} {order.customer_lastname}
-                      </td>
-                      <td>{order.total_price.toLocaleString()} kr</td>
-                      <td>{order.payment_status}</td>
-                      <td>{order.order_status}</td>
-                      <td>
-                        <button
-                          onClick={() => viewOrderDetails(order)}
-                          className="btn btn-small btn-info"
-                        >
-                          Visa
-                        </button>
-                        <button
-                          onClick={() => deleteOrder(order.id)}
-                          className="btn btn-small btn-danger"
-                        >
-                          Ta bort
-                        </button>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            )}
-          </div>
-
-          {/* Orderdetaljer Sektion */}
-          {selectedOrder && (
-            <div className="order-details">
-              <h3>Orderdetaljer (Order ID: {selectedOrder.id})</h3>
-              <div className="order-info">
-                <p>
-                  <strong>Kund:</strong> {selectedOrder.customer_firstname}{" "}
-                  {selectedOrder.customer_lastname}
-                </p>
-                <p>
-                  <strong>Email:</strong> {selectedOrder.customer_email}
-                </p>
-                <p>
-                  <strong>Telefon:</strong> {selectedOrder.customer_phone}
-                </p>
-                <p>
-                  <strong>Adress:</strong>{" "}
-                  {selectedOrder.customer_street_address},{" "}
-                  {selectedOrder.customer_postal_code}{" "}
-                  {selectedOrder.customer_city},{" "}
-                  {selectedOrder.customer_country}
-                </p>
-                <p>
-                  <strong>Skapat:</strong>{" "}
-                  {new Date(selectedOrder.created_at).toLocaleString()}
-                </p>
-                <p>
-                  <strong>Betalningsstatus:</strong>{" "}
-                  {selectedOrder.payment_status}
-                </p>
-                <p>
-                  <strong>Orderstatus:</strong> {selectedOrder.order_status}
-                </p>
-                <div className="order-actions">
-                  <button
-                    onClick={() =>
-                      updateOrderStatus(selectedOrder.id, "processing")
-                    }
-                    className="btn btn-small btn-primary"
-                  >
-                    Sätt som under behandling
-                  </button>
-                  <button
-                    onClick={() =>
-                      updateOrderStatus(selectedOrder.id, "completed")
-                    }
-                    className="btn btn-small btn-success"
-                  >
-                    Sätt som slutförd
-                  </button>
-                  <button
-                    onClick={() =>
-                      updateOrderStatus(selectedOrder.id, "canceled")
-                    }
-                    className="btn btn-small btn-danger"
-                  >
-                    Avbryt order
-                  </button>
-                </div>
-              </div>
-
-              <h4>Orderinnehåll:</h4>
-              <div className="order-items">
-                {selectedOrder.order_items.map((item) => (
-                  <div key={item.id} className="order-item">
-                    <div className="item-info">
-                      <span className="item-name">{item.product_name}</span>
-                      <span className="item-quantity">
-                        Antal:{" "}
-                        <input
-                          type="number"
-                          value={item.quantity}
-                          onChange={(e) =>
-                            updateOrderItemQuantity(
-                              item.id,
-                              Number(e.target.value)
-                            )
-                          }
-                          min="1"
-                          className="quantity-input"
-                        />
-                      </span>
-                    </div>
-                    <div className="item-actions">
-                      <button
-                        onClick={() => deleteOrderItem(item.id)}
-                        className="btn btn-small btn-danger"
-                      >
-                        Ta bort
-                      </button>
-                    </div>
-                  </div>
-                ))}
-              </div>
             </div>
           )}
         </div>
