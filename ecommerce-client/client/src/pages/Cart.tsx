@@ -33,17 +33,26 @@ const Cart = () => {
     );
     setCartItems(updatedCart);
     localStorage.setItem("cart", JSON.stringify(updatedCart));
+    
+    // Skicka anpassat event för att uppdatera header
+    window.dispatchEvent(new CustomEvent('cartUpdated'));
   };
 
   const removeItem = (id: number) => {
     const updatedCart = cartItems.filter((item) => item.id !== id);
     setCartItems(updatedCart);
     localStorage.setItem("cart", JSON.stringify(updatedCart));
+    
+    // Skicka anpassat event för att uppdatera header
+    window.dispatchEvent(new CustomEvent('cartUpdated'));
   };
 
   const clearCart = () => {
     setCartItems([]);
     localStorage.removeItem("cart");
+    
+    // Skicka anpassat event för att uppdatera header
+    window.dispatchEvent(new CustomEvent('cartUpdated'));
   };
 
   const getTotalPrice = () => {

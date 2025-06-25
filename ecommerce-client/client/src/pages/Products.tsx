@@ -49,6 +49,10 @@ const Products = () => {
     }
 
     localStorage.setItem("cart", JSON.stringify(cart));
+    
+    // Skicka event för att uppdatera header
+    window.dispatchEvent(new Event('cartUpdated'));
+    
     alert(`${product.name} tillagd i kundvagnen!`);
   };
 
