@@ -75,9 +75,8 @@ const Cart = () => {
 
   return (
     <div className="cart-page">
+      <h1>Din Kundvagn ({getTotalItems()} varor)</h1>
       <div className="container">
-        <h1>Din Kundvagn ({getTotalItems()} varor)</h1>
-
         <div className="cart-content">
           <div className="cart-items">
             {cartItems.map((item) => (

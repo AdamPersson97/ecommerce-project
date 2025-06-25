@@ -7,7 +7,6 @@ const Home = () => {
       <section className="hero">
         <div className="container">
           <h1>Välkommen till E-Shop</h1>
-          <p>Upptäck vårt fantastiska utbud av produkter</p>
           <Link to="/products" className="cta-button">
             Se alla produkter
           </Link>
