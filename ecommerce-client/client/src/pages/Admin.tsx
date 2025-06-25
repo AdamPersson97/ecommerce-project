@@ -118,6 +118,7 @@ const Admin = () => {
       const response = await fetch("http://localhost:3000/orders");
       if (response.ok) {
         const data = await response.json();
+        console.log("Orders data:", data); // Debug log
         setOrders(data);
       }
     } catch (error) {
@@ -789,9 +790,11 @@ const Admin = () => {
                     <tr key={order.id}>
                       <td>#{order.id}</td>
                       <td>
-                        {order.customer_firstname} {order.customer_lastname}
+                        {order.customer_firstname && order.customer_lastname
+                          ? `${order.customer_firstname} ${order.customer_lastname}`
+                          : "Kunddata saknas"}
                       </td>
-                      <td>{order.customer_email}</td>
+                      <td>{order.customer_email || "Email saknas"}</td>
                       <td>{order.total_price.toLocaleString()} kr</td>
                       <td>
                         <span
