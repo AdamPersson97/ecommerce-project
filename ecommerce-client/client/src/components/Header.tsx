@@ -7,26 +7,29 @@ const Header = () => {
 
   useEffect(() => {
     updateCartCount();
-    
+
     // Lyssna på localStorage ändringar för att uppdatera räknaren
     const handleStorageChange = () => {
       updateCartCount();
     };
-    
-    window.addEventListener('storage', handleStorageChange);
-    
+
+    window.addEventListener("storage", handleStorageChange);
+
     // Lyssna på anpassade events för kundvagnsändringar
-    window.addEventListener('cartUpdated', handleStorageChange);
-    
+    window.addEventListener("cartUpdated", handleStorageChange);
+
     return () => {
-      window.removeEventListener('storage', handleStorageChange);
-      window.removeEventListener('cartUpdated', handleStorageChange);
+      window.removeEventListener("storage", handleStorageChange);
+      window.removeEventListener("cartUpdated", handleStorageChange);
     };
   }, []);
 
   const updateCartCount = () => {
     const cart = JSON.parse(localStorage.getItem("cart") || "[]");
-    const totalItems = cart.reduce((total: number, item: any) => total + item.quantity, 0);
+    const totalItems = cart.reduce(
+      (total: number, item: any) => total + item.quantity,
+      0
+    );
     setCartItemCount(totalItems);
   };
 
