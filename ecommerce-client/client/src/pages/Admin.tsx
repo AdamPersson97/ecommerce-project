@@ -237,6 +237,14 @@ const Admin = () => {
       category: product.category,
       image: product.image,
     });
+
+    // Scrolla till produktformulär
+    setTimeout(() => {
+      const productForm = document.querySelector(".product-form");
+      if (productForm) {
+        productForm.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    }, 100);
   };
 
   const editCustomer = (customer: Customer) => {
@@ -251,6 +259,14 @@ const Admin = () => {
       city: customer.city,
       country: customer.country,
     });
+
+    // Scrolla till kundformulär
+    setTimeout(() => {
+      const customerForm = document.querySelector(".customer-form");
+      if (customerForm) {
+        customerForm.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    }, 100);
   };
 
   const deleteProduct = async (id: number) => {
