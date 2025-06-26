@@ -255,11 +255,11 @@ const Checkout = () => {
     }
   };
 
-  if (cartItems.length === 0) {
-    return (
-      <div className="checkout-page">
-        <div className="container">
-          <h1>Checkout</h1>
+  return (
+    <div className="checkout-page">
+      <h1>Checkout</h1>
+      <div className="container">
+        {cartItems.length === 0 ? (
           <div className="empty-cart">
             <p>
               Din varukorg är tom. Du måste lägga till varor i varukorgen för
@@ -272,204 +272,204 @@ const Checkout = () => {
               Gå till produkter
             </button>
           </div>
-        </div>
-      </div>
-    );
-  }
+        ) : (
+          <div className="checkout-content">
+            {/* Varukorg sektion */}
+            <div className="cart-section">
+              <h2>Din varukorg</h2>
+              <div className="cart-items">
+                {cartItems.map((item) => (
+                  <div key={item.id} className="cart-item">
+                    <div className="item-image">
+                      <img
+                        src={
+                          item.image ||
+                          "https://via.placeholder.com/80x80?text=Ingen+Bild"
+                        }
+                        alt={item.name}
+                        onError={(e) => {
+                          (e.target as HTMLImageElement).src =
+                            "https://via.placeholder.com/80x80?text=Ingen+Bild";
+                        }}
+                      />
+                    </div>
+                    <div className="item-info">
+                      <h3>{item.name}</h3>
+                      <p className="item-price">
+                        {item.price.toLocaleString()} kr
+                      </p>
+                    </div>
+                    <div className="quantity-controls">
+                      <button
+                        onClick={() =>
+                          updateQuantity(item.id, item.quantity - 1)
+                        }
+                        className="quantity-btn"
+                      >
+                        -
+                      </button>
+                      <span className="quantity">{item.quantity}</span>
+                      <button
+                        onClick={() =>
+                          updateQuantity(item.id, item.quantity + 1)
+                        }
+                        className="quantity-btn"
+                      >
+                        +
+                      </button>
+                    </div>
+                    <div className="item-total">
+                      {(item.price * item.quantity).toLocaleString()} kr
+                    </div>
+                    <button
+                      onClick={() => removeItem(item.id)}
+                      className="remove-btn"
+                    >
+                      Ta bort
+                    </button>
+                  </div>
+                ))}
+              </div>
+              <div className="cart-total">
+                <strong>Totalt: {getTotalPrice().toLocaleString()} kr</strong>
+              </div>
+            </div>
 
-  return (
-    <div className="checkout-page">
-      <div className="container">
-        <h1>Checkout</h1>
-
-        <div className="checkout-content">
-          {/* Varukorg sektion */}
-          <div className="cart-section">
-            <h2>Din varukorg</h2>
-            <div className="cart-items">
-              {cartItems.map((item) => (
-                <div key={item.id} className="cart-item">
-                  <div className="item-image">
-                    <img
-                      src={
-                        item.image ||
-                        "https://via.placeholder.com/80x80?text=Ingen+Bild"
-                      }
-                      alt={item.name}
-                      onError={(e) => {
-                        (e.target as HTMLImageElement).src =
-                          "https://via.placeholder.com/80x80?text=Ingen+Bild";
-                      }}
+            {/* Kundformulär sektion */}
+            <div className="customer-section">
+              <h2>Kunduppgifter</h2>
+              <form className="customer-form">
+                <div className="form-row">
+                  <div className="form-group">
+                    <label>Förnamn *</label>
+                    <input
+                      type="text"
+                      name="firstname"
+                      value={customerData.firstname}
+                      onChange={handleInputChange}
+                      className={errors.firstname ? "error" : ""}
                     />
+                    {errors.firstname && (
+                      <span className="error-message">{errors.firstname}</span>
+                    )}
                   </div>
-                  <div className="item-info">
-                    <h3>{item.name}</h3>
-                    <p className="item-price">
-                      {item.price.toLocaleString()} kr
-                    </p>
+                  <div className="form-group">
+                    <label>Efternamn *</label>
+                    <input
+                      type="text"
+                      name="lastname"
+                      value={customerData.lastname}
+                      onChange={handleInputChange}
+                      className={errors.lastname ? "error" : ""}
+                    />
+                    {errors.lastname && (
+                      <span className="error-message">{errors.lastname}</span>
+                    )}
                   </div>
-                  <div className="quantity-controls">
-                    <button
-                      onClick={() => updateQuantity(item.id, item.quantity - 1)}
-                      className="quantity-btn"
-                    >
-                      -
-                    </button>
-                    <span className="quantity">{item.quantity}</span>
-                    <button
-                      onClick={() => updateQuantity(item.id, item.quantity + 1)}
-                      className="quantity-btn"
-                    >
-                      +
-                    </button>
-                  </div>
-                  <div className="item-total">
-                    {(item.price * item.quantity).toLocaleString()} kr
-                  </div>
-                  <button
-                    onClick={() => removeItem(item.id)}
-                    className="remove-btn"
-                  >
-                    Ta bort
-                  </button>
                 </div>
-              ))}
-            </div>
-            <div className="cart-total">
-              <strong>Totalt: {getTotalPrice().toLocaleString()} kr</strong>
-            </div>
-          </div>
 
-          {/* Kundformulär sektion */}
-          <div className="customer-section">
-            <h2>Kunduppgifter</h2>
-            <form className="customer-form">
-              <div className="form-row">
                 <div className="form-group">
-                  <label>Förnamn *</label>
+                  <label>E-post *</label>
                   <input
-                    type="text"
-                    name="firstname"
-                    value={customerData.firstname}
+                    type="email"
+                    name="email"
+                    value={customerData.email}
                     onChange={handleInputChange}
-                    className={errors.firstname ? "error" : ""}
+                    className={errors.email ? "error" : ""}
                   />
-                  {errors.firstname && (
-                    <span className="error-message">{errors.firstname}</span>
+                  {errors.email && (
+                    <span className="error-message">{errors.email}</span>
                   )}
                 </div>
+
                 <div className="form-group">
-                  <label>Efternamn *</label>
+                  <label>Telefon *</label>
                   <input
-                    type="text"
-                    name="lastname"
-                    value={customerData.lastname}
+                    type="tel"
+                    name="phone"
+                    value={customerData.phone}
                     onChange={handleInputChange}
-                    className={errors.lastname ? "error" : ""}
+                    className={errors.phone ? "error" : ""}
                   />
-                  {errors.lastname && (
-                    <span className="error-message">{errors.lastname}</span>
+                  {errors.phone && (
+                    <span className="error-message">{errors.phone}</span>
                   )}
                 </div>
-              </div>
 
-              <div className="form-group">
-                <label>E-post *</label>
-                <input
-                  type="email"
-                  name="email"
-                  value={customerData.email}
-                  onChange={handleInputChange}
-                  className={errors.email ? "error" : ""}
-                />
-                {errors.email && (
-                  <span className="error-message">{errors.email}</span>
-                )}
-              </div>
-
-              <div className="form-group">
-                <label>Telefon *</label>
-                <input
-                  type="tel"
-                  name="phone"
-                  value={customerData.phone}
-                  onChange={handleInputChange}
-                  className={errors.phone ? "error" : ""}
-                />
-                {errors.phone && (
-                  <span className="error-message">{errors.phone}</span>
-                )}
-              </div>
-
-              <div className="form-group">
-                <label>Adress *</label>
-                <input
-                  type="text"
-                  name="street_address"
-                  value={customerData.street_address}
-                  onChange={handleInputChange}
-                  className={errors.street_address ? "error" : ""}
-                />
-                {errors.street_address && (
-                  <span className="error-message">{errors.street_address}</span>
-                )}
-              </div>
-
-              <div className="form-row">
                 <div className="form-group">
-                  <label>Postnummer *</label>
+                  <label>Adress *</label>
                   <input
                     type="text"
-                    name="postal_code"
-                    value={customerData.postal_code}
+                    name="street_address"
+                    value={customerData.street_address}
                     onChange={handleInputChange}
-                    className={errors.postal_code ? "error" : ""}
+                    className={errors.street_address ? "error" : ""}
                   />
-                  {errors.postal_code && (
-                    <span className="error-message">{errors.postal_code}</span>
+                  {errors.street_address && (
+                    <span className="error-message">
+                      {errors.street_address}
+                    </span>
                   )}
                 </div>
+
+                <div className="form-row">
+                  <div className="form-group">
+                    <label>Postnummer *</label>
+                    <input
+                      type="text"
+                      name="postal_code"
+                      value={customerData.postal_code}
+                      onChange={handleInputChange}
+                      className={errors.postal_code ? "error" : ""}
+                    />
+                    {errors.postal_code && (
+                      <span className="error-message">
+                        {errors.postal_code}
+                      </span>
+                    )}
+                  </div>
+                  <div className="form-group">
+                    <label>Stad *</label>
+                    <input
+                      type="text"
+                      name="city"
+                      value={customerData.city}
+                      onChange={handleInputChange}
+                      className={errors.city ? "error" : ""}
+                    />
+                    {errors.city && (
+                      <span className="error-message">{errors.city}</span>
+                    )}
+                  </div>
+                </div>
+
                 <div className="form-group">
-                  <label>Stad *</label>
+                  <label>Land *</label>
                   <input
                     type="text"
-                    name="city"
-                    value={customerData.city}
+                    name="country"
+                    value={customerData.country}
                     onChange={handleInputChange}
-                    className={errors.city ? "error" : ""}
+                    className={errors.country ? "error" : ""}
                   />
-                  {errors.city && (
-                    <span className="error-message">{errors.city}</span>
+                  {errors.country && (
+                    <span className="error-message">{errors.country}</span>
                   )}
                 </div>
-              </div>
+              </form>
 
-              <div className="form-group">
-                <label>Land *</label>
-                <input
-                  type="text"
-                  name="country"
-                  value={customerData.country}
-                  onChange={handleInputChange}
-                  className={errors.country ? "error" : ""}
-                />
-                {errors.country && (
-                  <span className="error-message">{errors.country}</span>
-                )}
+              <div className="checkout-actions">
+                <button
+                  onClick={handleCheckout}
+                  disabled={loading}
+                  className="btn btn-primary checkout-btn"
+                >
+                  {loading ? "Bearbetar..." : "Betala"}
+                </button>
               </div>
-            </form>
-
-            <div className="checkout-actions">
-              <button
-                onClick={handleCheckout}
-                disabled={loading}
-                className="btn btn-primary checkout-btn"
-              >
-                {loading ? "Bearbetar..." : "Betala"}
-              </button>
             </div>
           </div>
-        </div>
+        )}
       </div>
     </div>
   );
