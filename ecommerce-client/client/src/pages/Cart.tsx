@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./Cart.css";
 
 interface CartItem {
@@ -12,6 +12,7 @@ interface CartItem {
 
 const Cart = () => {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     loadCart();
@@ -158,7 +159,10 @@ const Cart = () => {
               <button onClick={clearCart} className="btn btn-secondary">
                 Töm kundvagn
               </button>
-              <button className="btn btn-primary checkout-btn">
+              <button
+                onClick={() => navigate("/checkout")}
+                className="btn btn-primary checkout-btn"
+              >
                 Gå till kassan
               </button>
             </div>
