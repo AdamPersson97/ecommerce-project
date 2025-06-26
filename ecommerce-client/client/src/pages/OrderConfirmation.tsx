@@ -253,11 +253,6 @@ const OrderConfirmation = () => {
               Tillbaka till startsidan
             </Link>
           </div>
-
-          <div className="contact-info">
-            <h3>Har du frågor?</h3>
-            <p>Kontakta vår kundservice om du har frågor om din beställning.</p>
-          </div>
         </div>
       </div>
     </div>

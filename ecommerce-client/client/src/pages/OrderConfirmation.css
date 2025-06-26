@@ -4,6 +4,12 @@
   background-color: #f8f9fa;
 }
 
+.order-confirmation-page .container {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
 .confirmation-header {
   text-align: center;
   margin-bottom: 3rem;
@@ -11,6 +17,7 @@
   padding: 3rem 2rem;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  order: 1; /* Säkerställ att den är först */
 }
 
 .success-icon {
@@ -45,6 +52,7 @@
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   margin-bottom: 2rem;
+  order: 2; /* Säkerställ att den är i mitten */
 }
 
 .order-summary h2 {
@@ -56,9 +64,9 @@
 }
 
 .order-details-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 3rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
   margin-bottom: 3rem;
 }
 
@@ -157,13 +165,14 @@
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   text-align: center;
+  order: 3; /* Säkerställ att den är sist */
 }
 
 .action-buttons {
   display: flex;
   gap: 1rem;
   justify-content: center;
-  margin-bottom: 2rem;
+  align-items: center;
 }
 
 .btn {
@@ -176,6 +185,8 @@
   transition: all 0.3s ease;
   display: inline-block;
   font-size: 1rem;
+  min-width: 200px;
+  text-align: center;
 }
 
 .btn-primary {
@@ -241,7 +252,6 @@
 /* Responsive design */
 @media (max-width: 768px) {
   .order-details-grid {
-    grid-template-columns: 1fr;
     gap: 1.5rem;
   }
 
